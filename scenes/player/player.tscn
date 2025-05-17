@@ -1,0 +1,135 @@
+[gd_scene load_steps=19 format=3 uid="uid://brysh64ccqkbk"]
+
+[ext_resource type="Texture2D" uid="uid://dsp24yfoqolgr" path="res://assets/sprites/shadow_sprite.png" id="1_0owmy"]
+[ext_resource type="Script" uid="uid://hb0fq72n8lm7" path="res://scripts/player/player.gd" id="1_qek5x"]
+[ext_resource type="Texture2D" uid="uid://d18q13cmy7we1" path="res://assets/sprites/character_sprite.png" id="2_qek5x"]
+[ext_resource type="PackedScene" uid="uid://cjlq4cwuc8swd" path="res://scenes/components/health_component.tscn" id="3_5gtgg"]
+[ext_resource type="PackedScene" uid="uid://bsja3xytkc7p3" path="res://scenes/components/hurtbox_component.tscn" id="4_h17s1"]
+[ext_resource type="PackedScene" uid="uid://dm6aafdkk4qbv" path="res://scenes/components/movement_component.tscn" id="5_je7p5"]
+[ext_resource type="PackedScene" uid="uid://b83v22bq2xjh2" path="res://scenes/components/animation_component.tscn" id="6_fm80t"]
+[ext_resource type="PackedScene" uid="uid://bu7ep3gy3duyk" path="res://scenes/components/state_machine.tscn" id="7_gx1jg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugbui"]
+atlas = ExtResource("2_qek5x")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcs02"]
+atlas = ExtResource("2_qek5x")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_myrg7"]
+atlas = ExtResource("2_qek5x")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvlxm"]
+atlas = ExtResource("2_qek5x")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uf5tr"]
+atlas = ExtResource("2_qek5x")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lgqa7"]
+atlas = ExtResource("2_qek5x")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ydkj"]
+atlas = ExtResource("2_qek5x")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3j4b4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugbui")
+}],
+"loop": true,
+"name": &"dash",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fcs02")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_myrg7")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kvlxm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uf5tr")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lgqa7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ydkj")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yj68g"]
+size = Vector2(10, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ioxgp"]
+size = Vector2(10, 21)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("health_component", "hurtbox_component", "movement_component", "animation_component", "state_machine")]
+motion_mode = 1
+script = ExtResource("1_qek5x")
+health_component = NodePath("Components/HealthComponent")
+hurtbox_component = NodePath("Components/HurtboxComponent")
+movement_component = NodePath("Components/MovementComponent")
+animation_component = NodePath("Components/AnimationComponent")
+state_machine = NodePath("StateMachine")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+texture = ExtResource("1_0owmy")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_3j4b4")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_yj68g")
+debug_color = Color(0, 0.666667, 1, 0.392157)
+
+[node name="Components" type="Node" parent="."]
+
+[node name="HealthComponent" parent="Components" instance=ExtResource("3_5gtgg")]
+max_health = 3
+
+[node name="HurtboxComponent" parent="Components" node_paths=PackedStringArray("health_component") instance=ExtResource("4_h17s1")]
+health_component = NodePath("../HealthComponent")
+
+[node name="HurtCollision" type="CollisionShape2D" parent="Components/HurtboxComponent"]
+position = Vector2(0, -11.5)
+shape = SubResource("RectangleShape2D_ioxgp")
+debug_color = Color(0, 1, 0.5, 0.392157)
+
+[node name="MovementComponent" parent="Components" instance=ExtResource("5_je7p5")]
+
+[node name="AnimationComponent" parent="Components" node_paths=PackedStringArray("sprite") instance=ExtResource("6_fm80t")]
+sprite = NodePath("../../Sprite")
+
+[node name="StateMachine" parent="." instance=ExtResource("7_gx1jg")]
