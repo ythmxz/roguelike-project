@@ -15,3 +15,7 @@ func _ready() -> void:
 	assert(movement_component, "A Movement must be selected on Player!")
 	assert(animation_component, "An Animation must be selected on Player!")
 	assert(state_machine, "A StateMachine must be selected on Player!")
+
+
+func _physics_process(_delta: float) -> void:
+	move_and_slide()
