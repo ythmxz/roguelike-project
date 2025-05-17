@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfv1u4653sjax"]
+
+[ext_resource type="Script" uid="uid://db4l7a641q2ao" path="res://scripts/player/states/player_dead.gd" id="1_o4ctc"]
+
+[node name="PlayerDead" type="Node"]
+script = ExtResource("1_o4ctc")
+metadata/_custom_type_script = "uid://c147aqjchcv3f"
