@@ -2,6 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 
+@export_group("Components")
 @export var health_component: HealthComponent = null
 @export var hurtbox_component: HurtboxComponent = null
 @export var movement_component: MovementComponent = null
