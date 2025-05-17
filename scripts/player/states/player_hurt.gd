@@ -12,7 +12,7 @@ extends State
 
 @export_group("Durations")
 @export var invincibility_duration: float = 1.0
-@export var hurt_duration: float = 0.5
+@export var hurt_duration: float = 0.2
 
 @onready var hurt_timer: Timer = null
 
@@ -28,14 +28,13 @@ func _ready() -> void:
 
 
 func enter() -> void:
-	health_component.health_depleted.connect(_on_health_depleted)
+
+	if not health_component.health_depleted.is_connected(_on_health_depleted):
+		health_component.health_depleted.connect(_on_health_depleted)
+
 	_set_hurt_timer(hurt_duration)
 	health_component.set_invincibility_timer(invincibility_duration)
 	animation_component.play_animation("hurt")
-
-
-func exit() -> void:
-	health_component.health_depleted.disconnect(_on_health_depleted)
 
 
 func update(_delta: float) -> void:
