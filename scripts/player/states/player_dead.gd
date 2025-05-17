@@ -16,6 +16,6 @@ func _ready() -> void:
 
 
 func enter() -> void:
-	collision.call_deferred("disabled", true)
-	hurt_collision.call_deferred("disabled", true)
+	collision.set_deferred("disabled", true)
+	hurt_collision.set_deferred("disabled", true)
 	animation_component.play_animation("dead")
