@@ -10,7 +10,7 @@ var current_state: State = null
 
 
 func _ready() -> void:
-	assert(initial_state, "An initial State must be selected!")
+	assert(initial_state, "An initial State must be selected on StateMachine!")
 	change_state(initial_state)
 
 

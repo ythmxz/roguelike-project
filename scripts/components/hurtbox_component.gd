@@ -9,7 +9,7 @@ signal damage_taken
 
 
 func _ready() -> void:
-	assert(health_component, "A HealthComponent must be selected!")
+	assert(health_component, "A HealthComponent must be selected on HurtboxComponent!")
 	area_entered.connect(_on_area_entered)
 
 

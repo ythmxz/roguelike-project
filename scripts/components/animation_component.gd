@@ -9,7 +9,7 @@ var mouse_angle: float = 0.0:
 
 
 func _ready() -> void:
-	assert(sprite, "An Sprite must be selected!")
+	assert(sprite, "A Sprite must be selected on AnimationComponent!")
 
 
 func _get_mouse_angle() -> float:
