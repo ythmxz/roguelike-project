@@ -6,6 +6,7 @@ extends State
 @export var player_hurt: State = null
 
 @export_group("Components")
+@export var health_component: HealthComponent = null
 @export var hurtbox_component: HurtboxComponent = null
 @export var movement_component: MovementComponent = null
 @export var animation_component: AnimationComponent = null
@@ -16,6 +17,7 @@ func _ready() -> void:
 	assert(player_walk, "A PlayerWalk State must be selected on PlayerWalk!")
 	assert(player_hurt, "A PlayerHurt State must be selected on PlayerWalk!")
 
+	assert(health_component, "A HealthComponent must be selected on PlayerIdle!")
 	assert(hurtbox_component, "A HurtboxComponent must be selected on PlayerIdle!")
 	assert(movement_component, "A MovementComponent must be selected on PlayerIdle!")
 	assert(animation_component, "An AnimationComponent must be selected on PlayerIdle!")
@@ -42,7 +44,9 @@ func physics_update(delta: float) -> void:
 
 
 func _on_damage_taken() -> void:
-	state_machine.change_state(player_hurt)
+
+	if not health_component.is_invincible:
+		state_machine.change_state(player_hurt)
 
 
 func _on_movement_started() -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://brysh64ccqkbk"]
+[gd_scene load_steps=24 format=3 uid="uid://brysh64ccqkbk"]
 
 [ext_resource type="Texture2D" uid="uid://dsp24yfoqolgr" path="res://assets/sprites/shadow_sprite.png" id="1_0owmy"]
 [ext_resource type="Script" uid="uid://hb0fq72n8lm7" path="res://scripts/player/player.gd" id="1_qek5x"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bu7ep3gy3duyk" path="res://scenes/components/state_machine.tscn" id="7_gx1jg"]
 [ext_resource type="PackedScene" uid="uid://dwoxl60mb2nba" path="res://scenes/player/states/player_idle.tscn" id="9_fm80t"]
 [ext_resource type="PackedScene" uid="uid://454wqq2nh4fv" path="res://scenes/player/states/player_walk.tscn" id="10_gx1jg"]
+[ext_resource type="PackedScene" uid="uid://bhtff7smfybi7" path="res://scenes/player/states/player_dash.tscn" id="11_gx1jg"]
 [ext_resource type="PackedScene" uid="uid://lv06vl3b1di1" path="res://scenes/player/states/player_hurt.tscn" id="11_ugbui"]
 [ext_resource type="PackedScene" uid="uid://dfv1u4653sjax" path="res://scenes/player/states/player_dead.tscn" id="12_fcs02"]
 
@@ -120,7 +121,7 @@ visible = false
 shape = SubResource("RectangleShape2D_yj68g")
 debug_color = Color(0, 0.666667, 1, 0.392157)
 
-[node name="Components" type="Node" parent="."]
+[node name="Components" type="Node2D" parent="."]
 
 [node name="HealthComponent" parent="Components" instance=ExtResource("3_5gtgg")]
 max_health = 3
@@ -144,16 +145,27 @@ sprite = NodePath("../../Sprite")
 [node name="StateMachine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("7_gx1jg")]
 initial_state = NodePath("PlayerIdle")
 
-[node name="PlayerIdle" parent="StateMachine" node_paths=PackedStringArray("player_walk", "player_hurt", "hurtbox_component", "movement_component", "animation_component") instance=ExtResource("9_fm80t")]
+[node name="PlayerIdle" parent="StateMachine" node_paths=PackedStringArray("player_walk", "player_hurt", "health_component", "hurtbox_component", "movement_component", "animation_component") instance=ExtResource("9_fm80t")]
 player_walk = NodePath("../PlayerWalk")
 player_hurt = NodePath("../PlayerHurt")
+health_component = NodePath("../../Components/HealthComponent")
 hurtbox_component = NodePath("../../Components/HurtboxComponent")
 movement_component = NodePath("../../Components/MovementComponent")
 animation_component = NodePath("../../Components/AnimationComponent")
 
-[node name="PlayerWalk" parent="StateMachine" node_paths=PackedStringArray("player_idle", "player_hurt", "hurtbox_component", "movement_component", "animation_component") instance=ExtResource("10_gx1jg")]
+[node name="PlayerWalk" parent="StateMachine" node_paths=PackedStringArray("player_idle", "player_dash", "player_hurt", "health_component", "hurtbox_component", "movement_component", "animation_component") instance=ExtResource("10_gx1jg")]
+player_idle = NodePath("../PlayerIdle")
+player_dash = NodePath("../PlayerDash")
+player_hurt = NodePath("../PlayerHurt")
+health_component = NodePath("../../Components/HealthComponent")
+hurtbox_component = NodePath("../../Components/HurtboxComponent")
+movement_component = NodePath("../../Components/MovementComponent")
+animation_component = NodePath("../../Components/AnimationComponent")
+
+[node name="PlayerDash" parent="StateMachine" node_paths=PackedStringArray("player_idle", "player_hurt", "health_component", "hurtbox_component", "movement_component", "animation_component") instance=ExtResource("11_gx1jg")]
 player_idle = NodePath("../PlayerIdle")
 player_hurt = NodePath("../PlayerHurt")
+health_component = NodePath("../../Components/HealthComponent")
 hurtbox_component = NodePath("../../Components/HurtboxComponent")
 movement_component = NodePath("../../Components/MovementComponent")
 animation_component = NodePath("../../Components/AnimationComponent")
