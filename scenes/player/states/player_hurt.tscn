@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://lv06vl3b1di1"]
+
+[ext_resource type="Script" uid="uid://dgnjhewpdbpo0" path="res://scripts/player/states/player_hurt.gd" id="1_dml41"]
+
+[node name="PlayerHurt" type="Node"]
+script = ExtResource("1_dml41")
+metadata/_custom_type_script = "uid://c147aqjchcv3f"
